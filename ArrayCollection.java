@@ -78,7 +78,8 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	public void clear() {
-		// TODO Auto-generated method stub
+		data = (T[]) new Object[10];
+		size = 0;
 	}
 
 	public boolean contains(Object arg0) {
@@ -94,12 +95,19 @@ public class ArrayCollection<T> implements Collection<T> {
 
 	public boolean containsAll(Collection<?> arg0) {
 		// TODO Auto-generated method stub
-		return false;
+		Iterator itr = arg0.iterator();
+		while(itr.hasNext()) {
+			if(!this.contains(itr.next()))
+					return false;
+		}
+		return true;
 	}
 
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		if(size == 0)
+			return true;
+		else
+			return false;
 	}
 
 	public Iterator<T> iterator() {
@@ -139,13 +147,16 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] arr = new Object[size];
+		for(int i = 0; i < size; i++) {
+			arr[i] = data[i];
+		}
+		
+		return arr;
 	}
 
 	/* 
