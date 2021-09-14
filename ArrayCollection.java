@@ -57,15 +57,12 @@ public class ArrayCollection<T> implements Collection<T> {
 
 	public boolean add(T arg0) {
 		// TODO Auto-generated method stub
-//		can't be duplicate
-		
-//		if(this.contains(arg0))		***write code for contains first
-//			return false
+		if(this.contains(arg0))
+			return false;
 		
 //		 capacity must allow add or grow
 		if(size() == data.length)
 			grow();
-		
 		
 		data[size++] = arg0; //add arg0 to internal array data[] at index of size, incrementing size by 1
 		
@@ -73,7 +70,9 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	public boolean addAll(Collection<? extends T> arg0) {
-		// TODO Auto-generated method stub
+		for(T item: arg0) {
+			this.add(item);
+		}
 		return false;
 	}
 
@@ -118,32 +117,37 @@ public class ArrayCollection<T> implements Collection<T> {
 	 * Removes arg0 by selecting with iterator what to remove
 	 */
 	public boolean remove(Object arg0) {
-		// if(!contains(arg0))
-		//		return false
-		// iterate through to find arg0
-		// set next index to previous values for all index while hasNext is true
-		// make new iterator itr
-		// while(itr.hasNext())
-		// 		if(arg0.equals(data[itr.next()])){
-		//			
-		//			while(hasNext())
-		//				data[
-		//		}
-		
-		//orrrrrr just use a for loop i guess? idk? doesn't make sense to me lol
+		 for(int i = 0; i < size; i++) {
+			 if(data[i].equals(arg0)) {
+				 for(int j = i + 1; j < size; j++) {
+						data[j - 1] = data[j]; 
+					 }
+				 return true;
+			 } 	
+		 }
 		return false;
-		
-		
 	}
 
 	public boolean removeAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		int tempSize = this.size;
+		Iterator itr = this.iterator();
+		while(itr.hasNext()) {
+			if(arg0.contains(itr.next())){
+				itr.remove();
+			}
+		}
+		return !(tempSize == size);
 	}
 
 	public boolean retainAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		int tempSize = this.size;
+		Iterator itr = this.iterator();
+		while(itr.hasNext()) {
+			if(!arg0.contains(itr.next())){
+				itr.remove();
+			}
+		}
+		return !(tempSize == size);
 	}
 
 	public int size() {
@@ -182,8 +186,21 @@ public class ArrayCollection<T> implements Collection<T> {
 	 */
 	public ArrayList<T> toSortedList(Comparator<? super T> cmp)
 	{
-		// TODO fill in this method
-		return null;
+		ArrayList<T> arr = new ArrayList<T>();
+		for(T item: data) {
+			arr.add(item);
+		}
+		
+		for(int i = 0; i < arr.size() - 1; i++) {
+			int j, minIndex;
+			for(j = i + 1, minIndex = i; j < arr.size(); j++)
+				if(cmp.compare(arr.get(j), arr.get(minIndex)) < 0)
+					minIndex = j;
+			T temp = arr.get(i);
+			arr.set(i, arr.get(minIndex));
+			arr.set(minIndex, temp);
+		}
+		return arr;
 	}
 
 
@@ -197,9 +214,9 @@ public class ArrayCollection<T> implements Collection<T> {
 	{
 		private int nextIndex = 0;
 		
-//		private boolean canRemove = false;
+		private boolean canRemove = false;
 		
-		
+	
 		public boolean hasNext() {
 			return nextIndex < size; // when nextIndex is equal to the size, it means there's n amount of <numbers> in data[]
 									 // and index n of data[] is out of bounds, which is when nextIndex would be pointing "out of bounds" 
@@ -218,7 +235,7 @@ public class ArrayCollection<T> implements Collection<T> {
 			if(!hasNext())
 				throw new NoSuchElementException();
 			
-//			canRemove = true;
+			canRemove = true;
 			return data[nextIndex++];
 		}
 
@@ -227,8 +244,8 @@ public class ArrayCollection<T> implements Collection<T> {
 		 */
 		public void remove() {
 			// TODO Auto-generated method stub
-//			if(!canRemove)
-			if(nextIndex == 0)  								//	I think the reason for doing 'can remove' instead of just checking the case
+			
+			if(!canRemove)  								//	I think the reason for doing 'can remove' instead of just checking the case
 				throw new IllegalStateException();				// where the nextIndex is zero, is more so a question of intuitiveness of 
 			ArrayCollection.this.remove(data[nextIndex - 1]);	// Iterator, because, if remove is supposed to remove "what's last been seen" or
 			nextIndex--;										// last been selected, so if you remove something, and try to remove again without
