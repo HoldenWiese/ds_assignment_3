@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import assignment1.Matrix;
+
 /**
  * @author Daniel Kopta and ??
  * Implements the Collection interface using an array as storage.
@@ -55,10 +57,19 @@ public class ArrayCollection<T> implements Collection<T> {
 
 	public boolean add(T arg0) {
 		// TODO Auto-generated method stub
-		// cant be duplicate
-		// capacity must allow add or grow
+//		can't be duplicate
 		
-		return false;
+//		if(this.contains(arg0))		***write code for contains first
+//			return false
+		
+//		 capacity must allow add or grow
+		if(size() == data.length)
+			grow();
+		
+		
+		data[size++] = arg0; //add arg0 to internal array data[] at index of size, incrementing size by 1
+		
+		return true;
 	}
 
 	public boolean addAll(Collection<? extends T> arg0) {
@@ -73,7 +84,7 @@ public class ArrayCollection<T> implements Collection<T> {
 	public boolean contains(Object arg0) {
 		// TODO: Check instance of!?
 		
-		Iterator itr = iterator();
+		Iterator<T> itr = iterator();
 		while(itr.hasNext()) {
 			if(itr.next().equals(arg0))
 				return true;
@@ -95,9 +106,26 @@ public class ArrayCollection<T> implements Collection<T> {
 		return new ArrayCollectionIterator();
 	}
 
+	/**
+	 * Removes arg0 by selecting with iterator what to remove
+	 */
 	public boolean remove(Object arg0) {
-		// TODO Auto-generated method stub
+		// if(!contains(arg0))
+		//		return false
+		// iterate through to find arg0
+		// set next index to previous values for all index while hasNext is true
+		// make new iterator itr
+		// while(itr.hasNext())
+		// 		if(arg0.equals(data[itr.next()])){
+		//			
+		//			while(hasNext())
+		//				data[
+		//		}
+		
+		//orrrrrr just use a for loop i guess? idk? doesn't make sense to me lol
 		return false;
+		
+		
 	}
 
 	public boolean removeAll(Collection<?> arg0) {
@@ -156,26 +184,46 @@ public class ArrayCollection<T> implements Collection<T> {
 	 */
 	private class ArrayCollectionIterator implements Iterator<T>
 	{
-		int nextIndex = 0;
+		private int nextIndex = 0;
 		
-
+//		private boolean canRemove = false;
+		
+		
 		public boolean hasNext() {
-			return nextIndex < size;
+			return nextIndex < size; // when nextIndex is equal to the size, it means there's n amount of <numbers> in data[]
+									 // and index n of data[] is out of bounds, which is when nextIndex would be pointing "out of bounds" 
+									 // so i.e. for an array of 5 numbers, when nextIndex is 4, the last thing showed was at index 3. There's
+									 // something in index 4 (the fifth number), and index 4 is less than 5 as well (the size of array)
+									 // so since it has a next, if next() is called, nextIndex now equals 5, and the fifth number is returned
+									 // but since now the nextIndex is 5 and its equal to the size, hasNext() or next() would be false.
 		}
-
+		
+		/**
+		 * returns the next item in the collection
+		 * 
+		 * if no item exists, throws an exception
+		 */
 		public T next() throws NoSuchElementException{
 			if(!hasNext())
 				throw new NoSuchElementException();
-				
+			
+//			canRemove = true;
 			return data[nextIndex++];
 		}
 
+		/**
+		 * removes whatever has been selected by iterator
+		 */
 		public void remove() {
 			// TODO Auto-generated method stub
-			if(nextIndex == 0)
-				throw new IllegalStateException();
-			ArrayCollection.this.remove(data[nextIndex - 1]);
-			nextIndex--;
+//			if(!canRemove)
+			if(nextIndex == 0)  								//	I think the reason for doing 'can remove' instead of just checking the case
+				throw new IllegalStateException();				// where the nextIndex is zero, is more so a question of intuitiveness of 
+			ArrayCollection.this.remove(data[nextIndex - 1]);	// Iterator, because, if remove is supposed to remove "what's last been seen" or
+			nextIndex--;										// last been selected, so if you remove something, and try to remove again without
+															// calling next() again, what are you removing? you don't "know" whats next to remove
+															// so to speak, because the iterator works forward, removing forwards, not backward
+															// removing the one before and subsequently before
 		}
 
 	}

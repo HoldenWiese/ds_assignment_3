@@ -8,6 +8,10 @@ class ArrayCollectionTest {
 
 	@Test
 	void testAdd() {
+		//Test for general things added (returns true and check size)
+		//Test for duplicates not added (returns false)
+		//Test for capacity growth i.e. return true after adding a lot of things and checking for size
+		
 		fail("Not yet implemented");
 	}
 
@@ -24,6 +28,8 @@ class ArrayCollectionTest {
 	@Test
 	void testContains() {
 		fail("Not yet implemented");
+		//check if it does contain
+		//check if it doesn't
 	}
 
 	@Test
