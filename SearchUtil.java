@@ -25,8 +25,15 @@ public class SearchUtil {
 	 */
 	public static <T> boolean binarySearch(ArrayList<T> list, T item, Comparator<? super T> cmp)
 	{
-	
-		//TODO: Fill in with a correct binary search implementation
+		//Is cmp.compare(item, midpoint) = 0 or < 0 or > 0
+		//if greater search the right half
+		//if less than search the left half
+		//if equals return true
+		//if not found return false
+		//example in CS1410/src/a5/Completer.java
+		
+		
+		
 		return false;
 	}	
 }

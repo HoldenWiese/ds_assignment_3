@@ -18,10 +18,36 @@ class ArrayCollectionTest {
 	private Iterator<Integer> itr;
 	private Iterator<String> itrString;
 	
+	/**
+	 * This method reads in a file and converts each word in the file to a string, for the use of testing
+	 * @param filename name of filepath
+	 * @return ArrayCollection<String> of each word in file
+	 */
+	private ArrayCollection<String> readFile(String filename) {
+		ArrayCollection<String> sArr = new ArrayCollection<String>(); //start with fresh Array
+		String[] parsed = new String[0];
+		
+		try {
+			Scanner fileIn = new Scanner(new File(filename));
+			while(fileIn.hasNext()) {
+				//String[] parsed;
+				parsed = fileIn.next().split(" ");
+				for(String word: parsed)
+					sArr.add(word);
+			}
+			
+		} catch(FileNotFoundException e) {
+			System.err.println(e.getMessage() + " Nothing added to the library.");
+			return arrString;
+		}
+		
+		return sArr;
+	}
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		arr = new ArrayCollection<Integer>();
-		arrString = new ArrayCollection<String>();
+		arrString = new ArrayCollection<String>(); //if we do String tests
 		
 		itr = arr.iterator();
 		itrString = arrString.iterator();
@@ -30,16 +56,7 @@ class ArrayCollectionTest {
 			arr.add(i);
 		}
 		
-		try {
-			String filename = "src/assign03/collectionStringElements.txt";
-			Scanner fileIn = new Scanner(new File(filename));
-			while(fileIn.hasNext())
-				arrString.add(fileIn.next());
-			
-		} catch(FileNotFoundException e) {
-			System.err.println(e.getMessage() + " Nothing added to the library.");
-			return;
-		}
+		arrString = readFile("src/assign03/collectionStringElements.txt"); //if we do String tests
 		
 	}
 
