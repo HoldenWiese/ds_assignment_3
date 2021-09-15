@@ -25,6 +25,10 @@ class ArrayCollectionTest {
 		
 		assertEquals(100, arr.size());
 		assertEquals(50, arr.toArray()[50]);
+		
+		arr.add(100);
+		assertEquals(101, arr.size());
+		assertTrue(arr.add(100));
 	}
 
 	@Test
