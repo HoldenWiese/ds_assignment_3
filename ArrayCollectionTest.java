@@ -23,17 +23,26 @@ class ArrayCollectionTest {
 			arr.add(i);
 		}
 		
-		assertEquals(100, arr.size());
-		assertEquals(50, arr.toArray()[50]);
+		assertEquals(100, arr.size()); // Asserting that the size is correct
+		assertEquals(50, arr.toArray()[50]); // Asserting that the values are in the collection
 		
 		arr.add(100);
-		assertEquals(101, arr.size());
-		assertTrue(arr.add(100));
+		assertEquals(101, arr.size()); // Adding a 101th element to arr
+		assertFalse(arr.add(100)); // False because we try to add a repeat value
 	}
 
 	@Test
 	void testAddAll() {
-		fail("Not yet implemented");
+		ArrayCollection<Integer> arr = new ArrayCollection<Integer>();
+		
+		for(int i = 0; i < 10; i++) {
+			arr.add(i);
+		}
+		
+		Integer[] intArray = new Integer[] {
+				10, 11, 12, 13, 14, 15
+		};
+		arr.addAll(intArray);
 	}
 
 	@Test
