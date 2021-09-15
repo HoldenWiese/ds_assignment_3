@@ -2,67 +2,89 @@ package assign03;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ArrayCollectionTest {
 	
+	private ArrayCollection<Integer> arr;
+	private ArrayCollection<String> arrString;
+	private Iterator<Integer> itr;
+	private Iterator<String> itrString;
+	
 	@BeforeEach
 	void setUp() throws Exception {
+		arr = new ArrayCollection<Integer>();
+		arrString = new ArrayCollection<String>();
 		
+		itr = arr.iterator();
+		itrString = arrString.iterator();
+		
+		for(int i = 0; i < 100; i++) { 
+			arr.add(i);
+		}
 	}
 
 	@Test
-	void testAdd() {
-		//Test for general things added (returns true and check size)
-		//Test for duplicates not added (returns false)
-		//Test for capacity growth i.e. return true after adding a lot of things and checking for size
-		ArrayCollection<Integer> arr = new ArrayCollection<Integer>();
+	void testAdd() { //DONE? //do we need to test for like, strings.
 		
-		for(int i = 0; i < 100; i++) {
+		ArrayCollection<Integer> arr = new ArrayCollection<Integer>(); //Must instantiate new arr to clear setUp arr
+		
+		for(int i = 0; i < 100; i++) { //add 0-99 :) u smart dawg
 			arr.add(i);
 		}
 		
 		assertEquals(100, arr.size()); // Asserting that the size is correct
-		assertEquals(50, arr.toArray()[50]); // Asserting that the values are in the collection
 		
-		arr.add(100);
-		assertEquals(101, arr.size()); // Adding a 101th element to arr
-		assertFalse(arr.add(100)); // False because we try to add a repeat value
+		Iterator<Integer> itr = arr.iterator();
+		for(int i = 0; i < arr.size(); i++) { // Asserting that the values are in the collection
+			assertEquals(i, itr.next());
+		}
+		
+		assertTrue(arr.add(100));		// Returns True Test 
+		assertEquals(101, arr.size()); 	// Duplicate Test - Adding a 101th element to arr
+		assertFalse(arr.add(100)); 		// Repeat Value Test - False because we try to add a repeat value
 	}
 
 	@Test
-	void testAddAll() {
-		ArrayCollection<Integer> arr = new ArrayCollection<Integer>();
+	void testAddAll() { //DONE? idk. i think soooo? check for like, any other edge cases.
+		ArrayCollection<Integer> arr = new ArrayCollection<Integer>();		//Must instantiate new arr to clear setUp arr
+		ArrayCollection<Integer> arrToAdd = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> empty = new ArrayCollection<Integer>();
 		
-		for(int i = 0; i < 10; i++) {
+		
+		for(int i = 0; i < 10; i++) // add 0-9 to myArr
 			arr.add(i);
-		}
 		
-		Integer[] intArray = new Integer[] {
-				10, 11, 12, 13, 14, 15
-		};
-		arr.addAll(intArray);
-		//test all were added (no misses)
-		//test original data was unchanged
-		//test add empty collection
-		//test add all to an empty collection
+		for(int i = 0; i < 20; i++) // add 0-19 to arrToAdd
+			arrToAdd.add(i);
+			
+		assertTrue(arr.addAll(arrToAdd));		//add 10-19 to myArr (no duplicates)
+		
+		Iterator<Integer> itr = arr.iterator(); //Tests all original data retained and new data was added
+		for(int i = 0; i < 20; i++)
+			assertEquals(i, itr.next());
+		
+		assertEquals(20, arr.size()); // Tests no duplicates added and size updated.
+		assertFalse(arr.addAll(empty)); // Tests False case, empty arrayCollection added
 		
 	}
 
 	@Test
 	void testClear() {
-		//test that its empty
-		//test clear on emtpy collection
-		
-		fail("Not yet implemented");
+		arr.clear();
+		assertEquals(0, arr.size()); //Test size is 0
+		assertThrows(NoSuchElementException.class, () -> { itr.next(); }); //Test nothing is in the array
 	}
 
 	@Test
 	void testContains() {
-		fail("Not yet implemented");
-		//check if it does contain
-		//check if it doesn't
+		assertTrue(arr.contains(50));		// test true case
+		assertFalse(arr.contains(150));		// test false case
+		assertFalse(arr.contains("five"));	// test non compatible case
 	}
 
 	@Test
@@ -76,10 +98,9 @@ class ArrayCollectionTest {
 
 	@Test
 	void testIsEmpty() {
-		//test when true (check data and size)
-		//test when false (check data and size)
-		
-		fail("Not yet implemented");
+		ArrayCollection<Integer> empty = new ArrayCollection<Integer>();
+		assertTrue(empty.isEmpty());
+		assertFalse(arr.isEmpty());
 	}
 
 	@Test
@@ -94,11 +115,16 @@ class ArrayCollectionTest {
 
 	@Test
 	void testRemove() {
+		assertTrue(arr.remove(50));
+		assertEquals(99,arr.size());
+		assertFalse(arr.remove(50));
+		assertEquals(99, arr.size());
+		assertFalse(arr.contains(50));
+		
 		//test if item is removed
 		//test if original data is still there
 		//test if size is updated
 		
-		fail("Not yet implemented");
 	}
 
 	@Test

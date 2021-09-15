@@ -54,7 +54,6 @@ public class ArrayCollection<T> implements Collection<T> {
 
 
 	public boolean add(T arg0) {
-		// TODO Auto-generated method stub
 		if(this.contains(arg0))
 			return false;
 		
@@ -68,10 +67,12 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	public boolean addAll(Collection<? extends T> arg0) {
+		int tempSize = size();
 		for(T item: arg0) {
 			this.add(item);
 		}
-		return false;
+		
+		return tempSize != size();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -104,8 +105,7 @@ public class ArrayCollection<T> implements Collection<T> {
 	public boolean isEmpty() {
 		if(size == 0)
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	public Iterator<T> iterator() {
@@ -121,6 +121,7 @@ public class ArrayCollection<T> implements Collection<T> {
 				 for(int j = i + 1; j < size; j++) {
 						data[j - 1] = data[j]; 
 					 }
+				 size--;
 				 return true;
 			 } 	
 		 }
@@ -135,7 +136,7 @@ public class ArrayCollection<T> implements Collection<T> {
 				itr.remove();
 			}
 		}
-		return !(tempSize == size);
+		return tempSize != size;
 	}
 
 	public boolean retainAll(Collection<?> arg0) {
@@ -146,7 +147,7 @@ public class ArrayCollection<T> implements Collection<T> {
 				itr.remove();
 			}
 		}
-		return !(tempSize == size);
+		return tempSize != size;
 	}
 
 	public int size() {
