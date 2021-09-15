@@ -2,8 +2,11 @@ package assign03;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +29,18 @@ class ArrayCollectionTest {
 		for(int i = 0; i < 100; i++) { 
 			arr.add(i);
 		}
+		
+		try {
+			String filename = "src/assign03/collectionStringElements.txt";
+			Scanner fileIn = new Scanner(new File(filename));
+			while(fileIn.hasNext())
+				arrString.add(fileIn.next());
+			
+		} catch(FileNotFoundException e) {
+			System.err.println(e.getMessage() + " Nothing added to the library.");
+			return;
+		}
+		
 	}
 
 	@Test
@@ -114,7 +129,7 @@ class ArrayCollectionTest {
 	}
 
 	@Test
-	void testRemove() {
+	void testRemove() { //not done
 		assertTrue(arr.remove(50));
 		assertEquals(99,arr.size());
 		assertFalse(arr.remove(50));
