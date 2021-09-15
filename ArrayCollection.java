@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import assignment1.Matrix;
-
 /**
  * @author Daniel Kopta and ??
  * Implements the Collection interface using an array as storage.
@@ -75,7 +73,8 @@ public class ArrayCollection<T> implements Collection<T> {
 		}
 		return false;
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public void clear() {
 		data = (T[]) new Object[10];
 		size = 0;
@@ -94,7 +93,7 @@ public class ArrayCollection<T> implements Collection<T> {
 
 	public boolean containsAll(Collection<?> arg0) {
 		// TODO Auto-generated method stub
-		Iterator itr = arg0.iterator();
+		Iterator<?> itr = arg0.iterator();
 		while(itr.hasNext()) {
 			if(!this.contains(itr.next()))
 					return false;
@@ -130,7 +129,7 @@ public class ArrayCollection<T> implements Collection<T> {
 
 	public boolean removeAll(Collection<?> arg0) {
 		int tempSize = this.size;
-		Iterator itr = this.iterator();
+		Iterator<?> itr = this.iterator();
 		while(itr.hasNext()) {
 			if(arg0.contains(itr.next())){
 				itr.remove();
@@ -141,7 +140,7 @@ public class ArrayCollection<T> implements Collection<T> {
 
 	public boolean retainAll(Collection<?> arg0) {
 		int tempSize = this.size;
-		Iterator itr = this.iterator();
+		Iterator<?> itr = this.iterator();
 		while(itr.hasNext()) {
 			if(!arg0.contains(itr.next())){
 				itr.remove();
@@ -168,6 +167,7 @@ public class ArrayCollection<T> implements Collection<T> {
 	 * It must be here to complete the Collection interface.
 	 * We will not test this method.
 	 */
+	@SuppressWarnings("hiding") //cuz the warning is annoying
 	public <T> T[] toArray(T[] arg0) {
 		return null;
 	}
