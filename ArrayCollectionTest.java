@@ -33,11 +33,19 @@ class ArrayCollectionTest {
 
 	@Test
 	void testAddAll() {
+		//test all were added (no misses)
+		//test original data was unchanged
+		//test add empty collection
+		//test add all to an empty collection
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
 	void testClear() {
+		//test that its empty
+		//test clear on emtpy collection
+		
 		fail("Not yet implemented");
 	}
 
@@ -50,51 +58,82 @@ class ArrayCollectionTest {
 
 	@Test
 	void testContainsAll() {
+		//test if contains all
+		//test if contains all of smaller collection
+		//test smaller collections (doesn't) contain all of bigger collection
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
 	void testIsEmpty() {
+		//test when true (check data and size)
+		//test when false (check data and size)
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
 	void testIterator() {
+		//test Iterator can
+		//do next() and throw exceptions
+		//do hasnext() for true and false
+		//do remove() and updates int nextIndex 
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
 	void testRemove() {
+		//test if item is removed
+		//test if original data is still there
+		//test if size is updated
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
 	void testRemoveAll() {
+		// test if all that data was removed and original is still there
+		// test if smaller collection removes all things from a bigger collection resulting in nothing
+		// test if bigger collection removes all things from a smaller collection resulting in remaining data
+		// test if items in other collection are not contained in the collection, nothing is removed
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
 	void testRetainAll() {
+		// test if all data in other collection is retained
+		// test if other collection is bigger but has all that your has resulting in retaining all
+		// test if yours is bigger and other is smaller resulting in retaining only other
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
 	void testSize() {
+		//test initial size
+		//add 1 or some and test size again
+		
 		fail("Not yet implemented");
 	}
 
 	@Test
 	void testToArray() {
+		// test array length == size of collection
+		// test all data the same
+		// test something else idk?
 		fail("Not yet implemented");
 	}
 
-	@Test
-	void testToArrayTArray() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	void testToSortedList() {
+		//test that its sorted
+		//test the size does not change (arraylist.length == sized)
+		//test arraylist contains all things in data[]
+		
 		fail("Not yet implemented");
 	}
 
