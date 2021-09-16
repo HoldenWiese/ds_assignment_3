@@ -1,15 +1,18 @@
 package assign03;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -138,11 +141,35 @@ class ArrayCollectionTest {
 
 	@Test
 	void testContainsAll() {
-		//test if contains all
-		//test if contains all of smaller collection
-		//test smaller collections (doesn't) contain all of bigger collection
+		ArrayCollection<Integer> arr1 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr2 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr3 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr4 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr5 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr6 = new ArrayCollection<Integer>();
 		
-		fail("Not yet implemented");
+		for(int i = 0; i < 10; i++) {
+			arr1.add(i);
+		}
+		for(int i = 5; i < 15; i++) {
+			arr2.add(i);
+		}
+		for(int i = 5; i < 8; i++) {
+			arr3.add(i);
+			arr5.add(i);
+		}
+		for(int i = -2; i < 20; i++) {
+			arr4.add(i);
+			arr6.add(i);
+		}
+		
+		assertTrue(arr1.containsAll(arr3));
+		assertFalse(arr1.containsAll(arr2));
+		assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", Arrays.toString(arr1.toArray())); // Assert values are not changed
+		
+		assertFalse(arr3.containsAll(arr4)); //arr3 does not contain all items in arr4
+		assertTrue(arr3.containsAll(arr5)); //arr3 contains same items as arr5
+		assertTrue(arr4.containsAll(arr3)); // arr4 contains lots of items including all items in arr3
 	}
 
 	@Test
@@ -157,9 +184,28 @@ class ArrayCollectionTest {
 		//test Iterator can
 		//do next() and throw exceptions
 		//do hasnext() for true and false
-		//do remove() and updates int nextIndex 
+		//do remove() and updates int nextIndex
 		
-		fail("Not yet implemented");
+		ArrayCollection<Integer> arr1 = new ArrayCollection<Integer>();
+		itr = arr1.iterator();
+		
+		for(int i = 0; i < 10; i++) {
+			arr1.add(i);
+		}
+		
+		assertTrue(arr1.iterator() instanceof Iterator); // Assert iterator() returns an iterator object.
+		assertEquals(0, itr.next());
+		assertTrue(itr.hasNext());
+		
+		itr.remove();
+		assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9]", Arrays.toString(arr1.toArray())); // remove should remove last next item.
+		assertThrows(IllegalStateException.class, () -> itr.remove());
+		
+		while(itr.hasNext()) {
+			itr.next();
+		}
+		assertThrows(NoSuchElementException.class, () -> itr.next());
+		
 	}
 
 	@Test
@@ -168,32 +214,81 @@ class ArrayCollectionTest {
 		assertEquals(99,arr.size());
 		assertFalse(arr.remove(50));
 		assertEquals(99, arr.size());
-		assertFalse(arr.contains(50));
-		
-		//test if item is removed
-		//test if original data is still there
-		//test if size is updated
-		
+		assertFalse(arr.contains(50));		
 	}
 
 	@Test
 	void testRemoveAll() {
-		// test if all that data was removed and original is still there
-		// test if smaller collection removes all things from a bigger collection resulting in nothing
-		// test if bigger collection removes all things from a smaller collection resulting in remaining data
-		// test if items in other collection are not contained in the collection, nothing is removed
+		ArrayCollection<Integer> arr1 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr2 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr3 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr4 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr5 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr6 = new ArrayCollection<Integer>();
 		
-		fail("Not yet implemented");
+		for(int i = 0; i < 10; i++) {
+			arr1.add(i);
+		}
+		for(int i = 5; i < 15; i++) {
+			arr2.add(i);
+		}
+		for(int i = 5; i < 8; i++) {
+			arr3.add(i);
+			arr5.add(i);
+		}
+		for(int i = -2; i < 20; i++) {
+			arr4.add(i);
+			arr6.add(i);
+		}
+		
+		assertTrue(arr1.removeAll(arr2)); // Calling remove all.
+		assertEquals("[0, 1, 2, 3, 4]", Arrays.toString(arr1.toArray())); // Checking the new values after calling remove all.
+		assertFalse(arr1.removeAll(arr2)); //Assert that when there is no change to the array it returns false.
+		assertEquals("[5, 6, 7, 8, 9, 10, 11, 12, 13, 14]", Arrays.toString(arr2.toArray())); // Assert that the argument was not changed.
+		assertEquals(5, arr1.size()); // Assert that arr1 is expected size.
+		
+		assertTrue(arr3.removeAll(arr4));
+		assertEquals("[]", Arrays.toString(arr3.toArray())); // arr3 should remove all values.
+		
+		assertTrue(arr6.removeAll(arr5));
+		assertEquals("[-2, -1, 0, 1, 2, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]", Arrays.toString(arr6.toArray())); // arr6 should remove arr5(5, 6, and 7)
 	}
 
 	@Test
 	void testRetainAll() {
+		ArrayCollection<Integer> arr1 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr2 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr3 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr4 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr5 = new ArrayCollection<Integer>();
+		ArrayCollection<Integer> arr6 = new ArrayCollection<Integer>();
 		
-		// test if all data in other collection is retained
-		// test if other collection is bigger but has all that your has resulting in retaining all
-		// test if yours is bigger and other is smaller resulting in retaining only other
+		for(int i = 0; i < 10; i++) {
+			arr1.add(i);
+		}
+		for(int i = 5; i < 15; i++) {
+			arr2.add(i);
+		}
+		for(int i = 5; i < 8; i++) {
+			arr3.add(i);
+			arr5.add(i);
+		}
+		for(int i = -2; i < 20; i++) {
+			arr4.add(i);
+			arr6.add(i);
+		}
 		
-		fail("Not yet implemented");
+		assertTrue(arr1.retainAll(arr2)); // Calling retain all.
+		assertEquals("[5, 6, 7, 8, 9]", Arrays.toString(arr1.toArray())); // Checking the new values after calling retain all.
+		assertFalse(arr1.retainAll(arr2)); //Assert that when there is no change to the array it returns false.
+		assertEquals("[5, 6, 7, 8, 9, 10, 11, 12, 13, 14]", Arrays.toString(arr2.toArray())); // Assert that the arguement was not changed.
+		assertEquals(5, arr1.size());
+		
+		assertFalse(arr3.retainAll(arr4)); // arr4 has same values so returns false. arr3 was not changed.
+		assertEquals("[5, 6, 7]", Arrays.toString(arr3.toArray())); // arr3 should retain all values.
+		
+		assertTrue(arr6.retainAll(arr5));
+		assertEquals("[5, 6, 7]", Arrays.toString(arr6.toArray())); // arr6 should retain arr5(5, 6, and 7)
 	}
 
 	@Test
@@ -211,10 +306,9 @@ class ArrayCollectionTest {
 
 	@Test
 	void testToArray() {
-		// test array length == size of collection
-		// test all data the same
-		// test something else idk?
-		fail("Not yet implemented");
+		assertEquals(100, arr.toArray().length);
+		assertEquals(99, arr.toArray()[99]);
+		assertEquals(0, arr.toArray()[0]);
 	}
 
 

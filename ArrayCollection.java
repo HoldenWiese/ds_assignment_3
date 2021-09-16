@@ -238,7 +238,7 @@ public class ArrayCollection<T> implements Collection<T> {
 		 * 
 		 * if no item exists, throws an exception
 		 */
-		public T next() throws NoSuchElementException{
+		public T next() throws NoSuchElementException {
 			if(!hasNext())
 				throw new NoSuchElementException();
 			
@@ -249,13 +249,13 @@ public class ArrayCollection<T> implements Collection<T> {
 		/**
 		 * removes whatever has been selected by iterator
 		 */
-		public void remove() {
-			// TODO Auto-generated method stub
+		public void remove() throws IllegalStateException {
 			
 			if(!canRemove)  								//	I think the reason for doing 'can remove' instead of just checking the case
 				throw new IllegalStateException();				// where the nextIndex is zero, is more so a question of intuitiveness of 
 			ArrayCollection.this.remove(data[nextIndex - 1]);	// Iterator, because, if remove is supposed to remove "what's last been seen" or
-			nextIndex--;										// last been selected, so if you remove something, and try to remove again without
+			nextIndex--;
+			canRemove = false;												// last been selected, so if you remove something, and try to remove again without
 															// calling next() again, what are you removing? you don't "know" whats next to remove
 															// so to speak, because the iterator works forward, removing forwards, not backward
 															// removing the one before and subsequently before
