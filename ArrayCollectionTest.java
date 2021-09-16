@@ -320,7 +320,7 @@ class ArrayCollectionTest {
 		}
 		
 		System.out.println(arr.size());
-		Comparator<Integer> cmp = new cmpInteger();
+		cmpInteger cmp = new cmpInteger();
 		ArrayList<Integer> intArr = arr.toSortedList(cmp);
 		
 		for(int i = 100; i < 0; i--) { //adds 100 - 1 in descending order
