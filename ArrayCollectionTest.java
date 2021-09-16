@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -11,12 +13,27 @@ import java.util.Scanner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import assign02.LibraryBookGeneric;
+
 class ArrayCollectionTest {
 	
 	private ArrayCollection<Integer> arr;
 	private ArrayCollection<String> arrString;
 	private Iterator<Integer> itr;
 	private Iterator<String> itrString;
+	
+	
+	protected class cmpInteger implements Comparator<Integer> {
+		public int compare(Integer x, Integer y) {
+			return x - y;
+		}
+	}
+	
+	protected class cmpString implements Comparator<String> {
+		public int compare(String x, String y) {
+			return x.compareTo(y);
+		}
+	}
 	
 	/**
 	 * This method reads in a file and converts each word in the file to a string, for the use of testing
@@ -171,6 +188,7 @@ class ArrayCollectionTest {
 
 	@Test
 	void testRetainAll() {
+		
 		// test if all data in other collection is retained
 		// test if other collection is bigger but has all that your has resulting in retaining all
 		// test if yours is bigger and other is smaller resulting in retaining only other
@@ -180,10 +198,15 @@ class ArrayCollectionTest {
 
 	@Test
 	void testSize() {
+		assertEquals(100, arr.size());
+		arr.add(500);
+		assertEquals(101, arr.size());
+		arr.remove(4);
+		assertEquals(100, arr.size());
 		//test initial size
 		//add 1 or some and test size again
 		
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	@Test
@@ -197,11 +220,34 @@ class ArrayCollectionTest {
 
 	@Test
 	void testToSortedList() {
+		arr.clear();
+		for(int i = 100; i > 0; i--) { //adds 100 - 1 in descending order
+			arr.add(i);
+		}
+		
+		System.out.println(arr.size());
+		Comparator<Integer> cmp = new cmpInteger();
+		ArrayList<Integer> intArr = arr.toSortedList(cmp);
+		
+		for(int i = 100; i < 0; i--) { //adds 100 - 1 in descending order
+			assertEquals(i, itr.next());
+		}
+		
+		for(int i = 1; i < 101; i++) { //adds 100 - 1 in descending order
+			assertEquals(i, intArr.get(i-1));
+		}
+		
+		assertEquals(100 ,intArr.size());
+		assertEquals(100, arr.size());
+			
+		
+		
+		
 		//test that its sorted
 		//test the size does not change (arraylist.length == sized)
 		//test arraylist contains all things in data[]
 		
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

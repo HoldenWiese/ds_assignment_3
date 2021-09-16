@@ -187,22 +187,28 @@ public class ArrayCollection<T> implements Collection<T> {
 	 */
 	public ArrayList<T> toSortedList(Comparator<? super T> cmp)
 	{
-		ArrayList<T> arr = new ArrayList<T>();
-		for(T item: data) {
-			arr.add(item);
+		ArrayList<T> arr = new ArrayList<T>(); // create NEW ArrayList<T>
+		
+		
+		//********bugfix*************
+		for(int i = 0; i < this.size(); i++) { 					// copies data
+			arr.add(this.data[i]);
 		}
 		
-		for(int i = 0; i < arr.size() - 1; i++) {
+		for(int i = 0; i < arr.size() - 1; i++) {					// Selection Sort
 			int j, minIndex;
-			for(j = i + 1, minIndex = i; j < arr.size(); j++)
-				if(cmp.compare(arr.get(j), arr.get(minIndex)) < 0)
-					minIndex = j;
+			for(j = i + 1, minIndex = i; j < arr.size(); j++) {
+				if(cmp.compare(arr.get(j), arr.get(minIndex)) < 0) {
+					minIndex = j; }
+			}
 			T temp = arr.get(i);
 			arr.set(i, arr.get(minIndex));
 			arr.set(minIndex, temp);
 		}
 		return arr;
 	}
+	
+	
 
 
 	/**
