@@ -28,7 +28,7 @@ class ArrayCollectionTest {
 	
 	protected class cmpInteger implements Comparator<Integer> {
 		public int compare(Integer x, Integer y) {
-			return x - y;
+			return x.compareTo(y);
 		}
 	}
 	
@@ -194,7 +194,11 @@ class ArrayCollectionTest {
 		}
 		
 		assertTrue(arr1.iterator() instanceof Iterator); // Assert iterator() returns an iterator object.
-		assertEquals(0, itr.next());
+		
+		for(int i = 0; i < 10; i++) {
+			assertEquals(i, itr.next());
+			
+		}
 		assertTrue(itr.hasNext());
 		
 		itr.remove();
@@ -342,6 +346,34 @@ class ArrayCollectionTest {
 		//test arraylist contains all things in data[]
 		
 		//fail("Not yet implemented");
+	}
+	
+	@Test
+	void binarySearch() {
+		cmpInteger cmp = new cmpInteger();
+		ArrayList<Integer> sorted = arr.toSortedList(cmp);
+		assertTrue(SearchUtil.binarySearch(sorted, 10, cmp));
+		assertTrue(SearchUtil.binarySearch(sorted, 0, cmp));
+		assertTrue(SearchUtil.binarySearch(sorted, 55, cmp));
+		assertTrue(SearchUtil.binarySearch(sorted, 99, cmp));
+		assertFalse(SearchUtil.binarySearch(sorted, 100, cmp));
+		assertFalse(SearchUtil.binarySearch(sorted, -1, cmp));
+		assertFalse(SearchUtil.binarySearch(sorted, 500, cmp));
+		sorted.remove(54);
+		sorted.remove(74);
+		sorted.remove(9);
+		sorted.remove(23);
+		assertTrue(SearchUtil.binarySearch(sorted, 10, cmp));
+		assertTrue(SearchUtil.binarySearch(sorted, 0, cmp));
+		assertTrue(SearchUtil.binarySearch(sorted, 55, cmp));
+		assertTrue(SearchUtil.binarySearch(sorted, 99, cmp));
+		sorted.removeAll(sorted);
+		assertFalse(SearchUtil.binarySearch(sorted, 100, cmp));
+		assertFalse(SearchUtil.binarySearch(sorted, -1, cmp));
+		assertFalse(SearchUtil.binarySearch(sorted, 500, cmp));
+		
+		
+		
 	}
 
 }

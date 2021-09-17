@@ -31,22 +31,24 @@ public class SearchUtil {
 		//if equals return true
 		//if not found return false
 		//example in CS1410/src/a5/Completer.java
+		if(list.size() == 0)
+			return false;
 		
 		int intLo = 0;
 		int intHi = list.size()-1;
 		T lo = list.get(intLo);
 		T hi = list.get(intHi);
-		while(cmp.compare(lo, hi) < 0) {
+		while(intLo - intHi <= 0) {
 			int mid = intLo + (intHi - intLo)/2;
+			lo = list.get(intLo);
+			hi = list.get(intHi);
 			if(cmp.compare(list.get(mid), item) == 0) 		//if mid equals return true
 				return true;
 			else if(cmp.compare(list.get(mid), item) < 0) {	//if mids less than the item, the items on the right side
 				intLo = mid + 1;
-				lo = list.get(intLo);
 			}
 			else if(cmp.compare(list.get(mid), item) > 0) {	//if mids greater than item, items on the left side
 				intHi = mid - 1;
-				hi = list.get(intHi);
 			}
 		}
 		return false;
