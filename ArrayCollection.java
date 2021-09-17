@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * @author Daniel Kopta and ??
+ * @author Daniel Kopta and Holden Wiese and Brensen Villegas
  * Implements the Collection interface using an array as storage.
  * The array must grow as needed.
  * An ArrayCollection can not contain duplicates.
@@ -43,8 +43,6 @@ public class ArrayCollection<T> implements Collection<T> {
 	@SuppressWarnings("unchecked")
 	private void grow()
 	{
-		// TODO fill in
-		// You will need to use something similar to the code in the constructor above to create a new array.
 		T newData[] = (T[]) new Object[data.length * 2];
 		for(int i = 0; i < data.length; i++) {
 			newData[i] = data[i];
@@ -53,6 +51,11 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 
+	/**
+	 * adds a value not already existing into the collection
+	 * @param arg0 item to be added
+	 * @return true if item added successfully
+	 */
 	public boolean add(T arg0) {
 		if(this.contains(arg0))
 			return false;
@@ -66,6 +69,11 @@ public class ArrayCollection<T> implements Collection<T> {
 		return true;
 	}
 
+	/**
+	 * addAll of one Collection, to the Collection it was called on
+	 * @param arg0 collection you want to add
+	 * @return boolean if any were added
+	 */
 	public boolean addAll(Collection<? extends T> arg0) {
 		int tempSize = size();
 		for(T item: arg0) {
@@ -75,15 +83,19 @@ public class ArrayCollection<T> implements Collection<T> {
 		return tempSize != size();
 	}
 	
+	/**
+	 * clears the collection it was called on
+	 */
 	@SuppressWarnings("unchecked")
 	public void clear() {
 		data = (T[]) new Object[10];
 		size = 0;
 	}
 
+	/**
+	 * returns true if item is contained within collection
+	 */
 	public boolean contains(Object arg0) {
-		// TODO: Check instance of!?
-		
 		Iterator<T> itr = iterator();
 		while(itr.hasNext()) {
 			if(itr.next().equals(arg0))
@@ -92,6 +104,11 @@ public class ArrayCollection<T> implements Collection<T> {
 		return false;
 	}
 
+	/**
+	 * returns true if every item in arg0 is in collection it was called on
+	 * @param arg0 collection to see if all of these are contained
+	 * @return boolean if all are contained
+	 */
 	public boolean containsAll(Collection<?> arg0) {
 		// TODO Auto-generated method stub
 		Iterator<?> itr = arg0.iterator();
@@ -102,12 +119,18 @@ public class ArrayCollection<T> implements Collection<T> {
 		return true;
 	}
 
+	/**
+	 * if empty, returns true
+	 */
 	public boolean isEmpty() {
 		if(size == 0)
 			return true;
 		return false;
 	}
 
+	/**
+	 * creates and returns a new iterator for ArrayCollection
+	 */
 	public Iterator<T> iterator() {
 		return new ArrayCollectionIterator();
 	}
@@ -128,6 +151,11 @@ public class ArrayCollection<T> implements Collection<T> {
 		return false;
 	}
 
+	/**
+	 * removes all things from collection called on contained in arg0
+	 * @param arg0 a collection of things to remove
+	 * @return boolean true if something was removed
+	 */
 	public boolean removeAll(Collection<?> arg0) {
 		int tempSize = this.size;
 		Iterator<?> itr = this.iterator();
@@ -139,6 +167,11 @@ public class ArrayCollection<T> implements Collection<T> {
 		return tempSize != size;
 	}
 
+	/**
+	 * removes all things that are NOT contained in arg0
+	 * @param arg0 a collection of things to retain
+	 * @return boolean true if something was removed
+	 */
 	public boolean retainAll(Collection<?> arg0) {
 		int tempSize = this.size;
 		Iterator<?> itr = this.iterator();
@@ -150,10 +183,16 @@ public class ArrayCollection<T> implements Collection<T> {
 		return tempSize != size;
 	}
 
+	/**
+	 * returns the size of items in the collection
+	 */
 	public int size() {
 		return size;
 	}
 
+	/**
+	 * returns an object array of items in the collection
+	 */
 	public Object[] toArray() {
 		Object[] arr = new Object[size];
 		for(int i = 0; i < size; i++) {
@@ -174,10 +213,6 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 
-
-	/*
-     
-	*/
 	/**
 	 * Sorting method specific to ArrayCollection - not part of the Collection interface.
      	Must implement a selection sort (see Assignment 2 for code).
@@ -190,7 +225,6 @@ public class ArrayCollection<T> implements Collection<T> {
 		ArrayList<T> arr = new ArrayList<T>(); // create NEW ArrayList<T>
 		
 		
-		//********bugfix*************
 		for(int i = 0; i < this.size(); i++) { 					// copies data
 			arr.add(this.data[i]);
 		}
@@ -213,8 +247,11 @@ public class ArrayCollection<T> implements Collection<T> {
 
 	/**
 	 * 
-	 * @author ??
-	 * Describe your ArrayCollectionIterator class here.
+	 * @author Brensen Villegas and Holden Wiese
+	 * 
+	 * iterates/navigates ArrayCollection, holding data to know where
+	 * the iterator is, if theres a next item, and how to remove something
+	 * and update nextIndex
 	 *
 	 */
 	private class ArrayCollectionIterator implements Iterator<T>
@@ -224,13 +261,11 @@ public class ArrayCollection<T> implements Collection<T> {
 		private boolean canRemove = false;
 		
 	
+		/**
+		 * returns true if theres a next item
+		 */
 		public boolean hasNext() {
-			return nextIndex < size; // when nextIndex is equal to the size, it means there's n amount of <numbers> in data[]
-									 // and index n of data[] is out of bounds, which is when nextIndex would be pointing "out of bounds" 
-									 // so i.e. for an array of 5 numbers, when nextIndex is 4, the last thing showed was at index 3. There's
-									 // something in index 4 (the fifth number), and index 4 is less than 5 as well (the size of array)
-									 // so since it has a next, if next() is called, nextIndex now equals 5, and the fifth number is returned
-									 // but since now the nextIndex is 5 and its equal to the size, hasNext() or next() would be false.
+			return nextIndex < size; 
 		}
 		
 		/**
@@ -251,14 +286,11 @@ public class ArrayCollection<T> implements Collection<T> {
 		 */
 		public void remove() throws IllegalStateException {
 			
-			if(!canRemove)  								//	I think the reason for doing 'can remove' instead of just checking the case
-				throw new IllegalStateException();				// where the nextIndex is zero, is more so a question of intuitiveness of 
-			ArrayCollection.this.remove(data[nextIndex - 1]);	// Iterator, because, if remove is supposed to remove "what's last been seen" or
+			if(!canRemove)  								
+				throw new IllegalStateException();				 
+			ArrayCollection.this.remove(data[nextIndex - 1]);	
 			nextIndex--;
-			canRemove = false;												// last been selected, so if you remove something, and try to remove again without
-															// calling next() again, what are you removing? you don't "know" whats next to remove
-															// so to speak, because the iterator works forward, removing forwards, not backward
-															// removing the one before and subsequently before
+			canRemove = false;												
 		}
 
 	}

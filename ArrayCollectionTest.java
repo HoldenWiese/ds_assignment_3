@@ -181,10 +181,6 @@ class ArrayCollectionTest {
 
 	@Test
 	void testIterator() {
-		//test Iterator can
-		//do next() and throw exceptions
-		//do hasnext() for true and false
-		//do remove() and updates int nextIndex
 		
 		ArrayCollection<Integer> arr1 = new ArrayCollection<Integer>();
 		itr = arr1.iterator();

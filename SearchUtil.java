@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 /**
  * 
- * @author Daniel Kopta and ??
+ * @author Daniel Kopta and Holden Wiese and Brensen Villegas
  * A utility class for searching, containing just one method (see below).
  *
  */
@@ -25,12 +25,6 @@ public class SearchUtil {
 	 */
 	public static <T> boolean binarySearch(ArrayList<T> list, T item, Comparator<? super T> cmp)
 	{
-		//Is cmp.compare(item, midpoint) = 0 or < 0 or > 0
-		//if greater search the right half
-		//if less than search the left half
-		//if equals return true
-		//if not found return false
-		//example in CS1410/src/a5/Completer.java
 		if(list.size() == 0)
 			return false;
 		
@@ -38,16 +32,16 @@ public class SearchUtil {
 		int intHi = list.size()-1;
 		T lo = list.get(intLo);
 		T hi = list.get(intHi);
-		while(intLo - intHi <= 0) {
+		while(intLo <= intHi) {							//while the lowest index is less not greater than the highest index
 			int mid = intLo + (intHi - intLo)/2;
 			lo = list.get(intLo);
 			hi = list.get(intHi);
-			if(cmp.compare(list.get(mid), item) == 0) 		//if mid equals return true
+			if(cmp.compare(list.get(mid), item) == 0) 		//if mid value equals search value return true
 				return true;
-			else if(cmp.compare(list.get(mid), item) < 0) {	//if mids less than the item, the items on the right side
+			else if(cmp.compare(list.get(mid), item) < 0) {	//if mids value less than the item value, the items on the right side
 				intLo = mid + 1;
 			}
-			else if(cmp.compare(list.get(mid), item) > 0) {	//if mids greater than item, items on the left side
+			else if(cmp.compare(list.get(mid), item) > 0) {	//if mids value greater than item value, items on the left side
 				intHi = mid - 1;
 			}
 		}
