@@ -199,10 +199,10 @@ class ArrayCollectionTest {
 			assertEquals(i, itr.next());
 			
 		}
-		assertTrue(itr.hasNext());
+		assertFalse(itr.hasNext());
 		
 		itr.remove();
-		assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9]", Arrays.toString(arr1.toArray())); // remove should remove last next item.
+		assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8]", Arrays.toString(arr1.toArray())); // remove should remove last next item.
 		assertThrows(IllegalStateException.class, () -> itr.remove());
 		
 		while(itr.hasNext()) {
