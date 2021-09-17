@@ -21,9 +21,7 @@ import assign02.LibraryBookGeneric;
 class ArrayCollectionTest {
 	
 	private ArrayCollection<Integer> arr;
-	private ArrayCollection<String> arrString;
 	private Iterator<Integer> itr;
-	private Iterator<String> itrString;
 	
 	
 	protected class cmpInteger implements Comparator<Integer> {
@@ -32,56 +30,23 @@ class ArrayCollectionTest {
 		}
 	}
 	
-	protected class cmpString implements Comparator<String> {
-		public int compare(String x, String y) {
-			return x.compareTo(y);
-		}
-	}
 	
-	/**
-	 * This method reads in a file and converts each word in the file to a string, for the use of testing
-	 * @param filename name of filepath
-	 * @return ArrayCollection<String> of each word in file
-	 */
-	private ArrayCollection<String> readFile(String filename) {
-		ArrayCollection<String> sArr = new ArrayCollection<String>(); //start with fresh Array
-		String[] parsed = new String[0];
-		
-		try {
-			Scanner fileIn = new Scanner(new File(filename));
-			while(fileIn.hasNext()) {
-				//String[] parsed;
-				parsed = fileIn.next().split(" ");
-				for(String word: parsed)
-					sArr.add(word);
-			}
-			
-		} catch(FileNotFoundException e) {
-			System.err.println(e.getMessage() + " Nothing added to the library.");
-			return arrString;
-		}
-		
-		return sArr;
-	}
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		arr = new ArrayCollection<Integer>();
-		arrString = new ArrayCollection<String>(); //if we do String tests
 		
 		itr = arr.iterator();
-		itrString = arrString.iterator();
 		
 		for(int i = 0; i < 100; i++) { 
 			arr.add(i);
 		}
 		
-		arrString = readFile("src/assign03/collectionStringElements.txt"); //if we do String tests
 		
 	}
 
 	@Test
-	void testAdd() { //DONE? //do we need to test for like, strings.
+	void testAdd() {
 		
 		ArrayCollection<Integer> arr = new ArrayCollection<Integer>(); //Must instantiate new arr to clear setUp arr
 		
